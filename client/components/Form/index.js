@@ -12,10 +12,10 @@ class Form extends Component {
   }
   handleSubmit(evt) {
     evt.preventDefault()
-    axios.post('/api/wayneApi', this.state.file) // sends to backend route
+    axios.post('/api/wayneApi', this.state.imagePreview) // sends to backend route
       .then(res => console.log (res))
       .catch(err => console.log(err))
-    console.log('handle uploading-', this.state.file)
+    console.log('handle uploading-', this.state.imagePreview)
   }
   handleImageChange(evt) {
     evt.preventDefault()
@@ -31,26 +31,23 @@ class Form extends Component {
   }
 
   render() {
-    const {imagePreview} = this.state
-    let imgPlaceHolder = null
-    if (imagePreview) {
-      imgPlaceHolder = (<img src={imagePreview} alt="villian" />)
-    } else {
-      imgPlaceHolder = (<div className="previewText">Please Upload Possible Villian</div>)
-    }
+    const { imagePreview } = this.state
 
     return (
       <form onSubmit={evt => this.handleSubmit(evt)}>
         <input type="file" id="imgInput" onChange={evt => this.handleImageChange(evt)} />
         <button
-          className="submitButton" 
-          type="submit" 
+          className="submitButton"
+          type="submit"
           onClick={evt => this.handleSubmit(evt)}
         >
           Upload Image
         </button>
         <div className="imgPreview">
-          {imagePreview}
+          {
+            imagePreview ? <img src={imagePreview} alt="villian" />
+            : <div className="previewText">Please Upload Possible Villian</div>
+          }
         </div>
       </form>
     )

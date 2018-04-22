@@ -3,29 +3,35 @@ const key = require('./apiKey')
 module.exports = router
 
 // code from postman
-function possibleVillian(img) {
-  const request = require("request")
-  console.log(img.toString())
+function possibleVillian(img, callBack) {
+  const k = Object.keys(img)
+  const request = require("request");
   const options = {
     method: 'POST',
     url: 'https://www.headlightlabs.com/api/gcpd_lookup',
     headers:
     {
-      'Postman-Token': '51ea4ad6-d5eb-47a9-a9b9-4b6d4f39c094',
+      'Postman-Token': 'a9ce8bb8-a58e-4376-a13c-6aef4386b9bb',
       'Cache-Control': 'no-cache',
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' 
-    },
-    formData: { api_key: key, image: img } 
+      'Content-Type': 'application/x-www-form-urlencoded' },
+    form:
+      {
+        api_key: 'Y1FaGRxsveHH41lVeklWsA',
+        image_contents: k[0]
+      }
   }
-  request(options, function (error, response, body) {
-    if (error) throw new Error(error)
-    console.log(body)
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error)
+  //console.log('****body', body)
+  callBack(body)
+ 
   })
 }
 
+
 // Using form data
 router.post('/wayneApi', (req, res) => {
-  possibleVillian(req.body)
-  res.end('success!')
+  possibleVillian(req.body, (data) => { res.json(data) })
+  //res.end('success!')
 })
